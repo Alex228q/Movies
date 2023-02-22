@@ -19,6 +19,11 @@ import java.util.List;
 public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesViewHolder> {
 
     private List<Movie> movies = new ArrayList<>();
+    private OnReachEndListener onReachEndListener;
+
+    public void setOnReachEndListener(OnReachEndListener onReachEndListener) {
+        this.onReachEndListener = onReachEndListener;
+    }
 
     public void setMovies(List<Movie> movies) {
         this.movies = movies;
@@ -38,13 +43,13 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesView
 
     @Override
     public void onBindViewHolder(@NonNull MoviesViewHolder holder, int position) {
-        Movie movie = movies.get(position);
 
-        if (movie.getPoster() != null){
+        Movie movie = movies.get(position);
+        if (movie.getPoster() != null) {
             Glide.with(holder.itemView)
                     .load(movie.getPoster().getUrl())
                     .into(holder.imageViewPoster);
-        }else{
+        } else {
             Glide.with(holder.itemView)
                     .load(R.drawable.image_not_found)
                     .into(holder.imageViewPoster);
@@ -64,6 +69,10 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesView
         Drawable background = ContextCompat.getDrawable(holder.itemView.getContext(), backgroundId);
         holder.textViewRating.setBackground(background);
         holder.textViewRating.setText(ratingStr);
+
+        if (position >= movies.size() - 10 && onReachEndListener != null) {
+            onReachEndListener.onReachEnd();
+        }
     }
 
     @Override
@@ -80,5 +89,9 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesView
             imageViewPoster = itemView.findViewById(R.id.imageViewPoster);
             textViewRating = itemView.findViewById(R.id.textViewRating);
         }
+    }
+
+    interface OnReachEndListener {
+        void onReachEnd();
     }
 }
