@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
         moviesAdapter = new MoviesAdapter();
         recyclerView.setAdapter(moviesAdapter);
+
         MainViewModel mainViewModel = new ViewModelProvider(this).get(MainViewModel.class);
 
         mainViewModel.getMovies().observe(this, movies -> moviesAdapter.setMovies(movies));

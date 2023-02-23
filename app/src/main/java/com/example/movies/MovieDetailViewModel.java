@@ -32,7 +32,7 @@ public class MovieDetailViewModel extends AndroidViewModel {
     public void loadTrailers(int id) {
         Disposable disposable = ApiFactory.apiService.loadTrailers(id)
                 .subscribeOn(Schedulers.io())
-                .subscribeOn(AndroidSchedulers.mainThread())
+                .observeOn(AndroidSchedulers.mainThread())
                 .map(trailerResponse -> trailerResponse.getTrailersList().getTrailers())
                 .subscribe(
                         trailersList -> trailers.setValue(trailersList),
