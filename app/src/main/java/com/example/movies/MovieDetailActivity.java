@@ -3,6 +3,7 @@ package com.example.movies;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -10,7 +11,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.schedulers.Schedulers;
+
 public class MovieDetailActivity extends AppCompatActivity {
+    private static final String TAG = "MovieDetailActivity";
     private static final String EXTRA_MOVIE = "movie";
     private TextView textViewDesc;
     private TextView textViewYear;
@@ -36,6 +41,9 @@ public class MovieDetailActivity extends AppCompatActivity {
         textViewTitle.setText(movie.getName());
         textViewDesc.setText(movie.getDescription());
         textViewYear.setText(String.valueOf(movie.getYear()));
+
+
+
     }
 
     public static Intent newIntent(Context context, Movie movie) {
