@@ -20,6 +20,11 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesView
 
     private List<Movie> movies = new ArrayList<>();
     private OnReachEndListener onReachEndListener;
+    private OnMovieClickListener onMovieClickListener;
+
+    public void setOnMovieClickListener(OnMovieClickListener onMovieClickListener) {
+        this.onMovieClickListener = onMovieClickListener;
+    }
 
     public void setOnReachEndListener(OnReachEndListener onReachEndListener) {
         this.onReachEndListener = onReachEndListener;
@@ -43,7 +48,6 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesView
 
     @Override
     public void onBindViewHolder(@NonNull MoviesViewHolder holder, int position) {
-
         Movie movie = movies.get(position);
         if (movie.getPoster() != null) {
             Glide.with(holder.itemView)
@@ -73,6 +77,15 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesView
         if (position >= movies.size() - 10 && onReachEndListener != null) {
             onReachEndListener.onReachEnd();
         }
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onMovieClickListener != null) {
+                    onMovieClickListener.onMovieClick(movie);
+                }
+            }
+        });
+
     }
 
     @Override
@@ -93,5 +106,9 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesView
 
     interface OnReachEndListener {
         void onReachEnd();
+    }
+
+    interface OnMovieClickListener {
+        void onMovieClick(Movie movie);
     }
 }
