@@ -51,7 +51,6 @@ public class MainViewModel extends AndroidViewModel {
                         movies.setValue(movieResponse.getMovies());
                     }
                     page++;
-                    Log.d("MainViewModel", "loadMovies: " + page);
                 }, throwable -> Log.d(TAG, throwable.toString()));
 
         compositeDisposable.add(disposable);

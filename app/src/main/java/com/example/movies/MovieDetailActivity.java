@@ -2,6 +2,7 @@ package com.example.movies;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -38,7 +39,6 @@ public class MovieDetailActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
 
-
         Movie movie = (Movie) getIntent().getSerializableExtra(EXTRA_MOVIE);
         movieDetailViewModel.loadTrailers(movie.getId());
         movieDetailViewModel.getTrailers().observe(this, trailers -> trailersAdapter.setTrailers(trailers));
@@ -56,6 +56,11 @@ public class MovieDetailActivity extends AppCompatActivity {
         textViewDesc.setText(movie.getDescription());
         textViewYear.setText(String.valueOf(movie.getYear()));
 
+        trailersAdapter.setOnTrailerClickListener(trailer -> {
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setData(Uri.parse(trailer.getUrl()));
+            startActivity(intent);
+        });
 
     }
 
