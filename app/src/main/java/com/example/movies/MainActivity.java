@@ -36,18 +36,10 @@ public class MainActivity extends AppCompatActivity {
                 progressBar.setVisibility(View.GONE);
             }
         });
-        moviesAdapter.setOnReachEndListener(new MoviesAdapter.OnReachEndListener() {
-            @Override
-            public void onReachEnd() {
-                mainViewModel.loadMovies();
-            }
-        });
-        moviesAdapter.setOnMovieClickListener(new MoviesAdapter.OnMovieClickListener() {
-            @Override
-            public void onMovieClick(Movie movie) {
-                Intent intent = MovieDetailActivity.newIntent(MainActivity.this, movie);
-                startActivity(intent);
-            }
+        moviesAdapter.setOnReachEndListener(() -> mainViewModel.loadMovies());
+        moviesAdapter.setOnMovieClickListener(movie -> {
+            Intent intent = MovieDetailActivity.newIntent(MainActivity.this, movie);
+            startActivity(intent);
         });
     }
 

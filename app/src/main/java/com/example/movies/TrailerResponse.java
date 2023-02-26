@@ -1,5 +1,7 @@
 package com.example.movies;
 
+import androidx.annotation.NonNull;
+
 import com.google.gson.annotations.SerializedName;
 
 public class TrailerResponse {
@@ -14,6 +16,7 @@ public class TrailerResponse {
         return trailersList;
     }
 
+    @NonNull
     @Override
     public String toString() {
         return "TrailerResponse{" +

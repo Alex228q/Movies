@@ -13,12 +13,19 @@ import java.util.List;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.disposables.Disposable;
+import io.reactivex.rxjava3.functions.Consumer;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class MovieDetailViewModel extends AndroidViewModel {
     private final static String TAG = "MovieDetailViewModel";
 
     private final MutableLiveData<List<Trailer>> trailers = new MutableLiveData<>();
+    private final MutableLiveData<List<Review>> reviews = new MutableLiveData<>();
+
+    public LiveData<List<Review>> getReviews() {
+        return reviews;
+    }
+
     private final CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     public LiveData<List<Trailer>> getTrailers() {
@@ -40,6 +47,27 @@ public class MovieDetailViewModel extends AndroidViewModel {
                 );
         compositeDisposable.add(disposable);
     }
+
+    public void loadReviews(int id) {
+        Disposable disposable = ApiFactory.apiService.loadReviews(id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .map(reviewResponse -> reviewResponse.getReviews())
+                .subscribe(new Consumer<List<Review>>() {
+                    @Override
+                    public void accept(List<Review> reviewsList) throws Throwable {
+                        reviews.setValue(reviewsList);
+                        Log.d(TAG, reviewsList.toString());
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Throwable {
+                        Log.d(TAG, throwable.toString());
+                    }
+                });
+        compositeDisposable.add(disposable);
+    }
+
 
     @Override
     protected void onCleared() {

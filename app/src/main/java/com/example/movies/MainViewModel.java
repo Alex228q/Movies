@@ -21,7 +21,7 @@ public class MainViewModel extends AndroidViewModel {
 
     private final MutableLiveData<List<Movie>> movies = new MutableLiveData<>();
     private final CompositeDisposable compositeDisposable = new CompositeDisposable();
-    private MutableLiveData<Boolean> isLoading = new MutableLiveData<>(false);
+    private final MutableLiveData<Boolean> isLoading = new MutableLiveData<>(false);
 
     public MainViewModel(@NonNull Application application) {
         super(application);
