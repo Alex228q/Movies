@@ -52,17 +52,26 @@
             android:id="@+id/recyclerViewTrailers"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/textViewDesc"
-            tools:itemCount="1"
-            tools:listitem="@layout/trailer_item" />
+            app:layout_constraintTop_toBottomOf="@id/textViewDesc" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewReviews"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/recyclerViewTrailers"
-            tools:itemCount="2"
-            tools:listitem="@layout/review_item" />
+
+            />
+
+        <ImageView
+            android:id="@+id/imageViewStar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:contentDescription="@null"
+            app:layout_constraintBottom_toBottomOf="@id/imageViewPosterDetail"
+            app:layout_constraintEnd_toEndOf="@id/imageViewPosterDetail"
+            app:layout_constraintTop_toBottomOf="@id/imageViewPosterDetail"
+            tools:srcCompat="@android:drawable/btn_star_big_on" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

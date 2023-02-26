@@ -2,12 +2,14 @@ package com.example.movies;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -25,6 +27,7 @@ public class MovieDetailActivity extends AppCompatActivity {
     private TextView textViewYear;
     private TextView textViewTitle;
     private ImageView imageViewPosterDetail;
+    private ImageView imageViewStar;
     MovieDetailViewModel movieDetailViewModel;
 
 
@@ -74,6 +77,21 @@ public class MovieDetailActivity extends AppCompatActivity {
             intent.setData(Uri.parse(trailer.getUrl()));
             startActivity(intent);
         });
+        Drawable starOff = ContextCompat.getDrawable(
+                MovieDetailActivity.this, android.R.drawable.star_big_off);
+        Drawable starOn = ContextCompat.getDrawable(
+                MovieDetailActivity.this, android.R.drawable.star_big_on);
+
+
+        movieDetailViewModel.getFavouriteMovie(movie.getId()).observe(this, movieFromDb -> {
+            if (movieFromDb == null) {
+                imageViewStar.setImageDrawable(starOff);
+                imageViewStar.setOnClickListener(v -> movieDetailViewModel.addMovie(movie));
+            } else {
+                imageViewStar.setImageDrawable(starOn);
+                imageViewStar.setOnClickListener(v -> movieDetailViewModel.removeMovie(movie.getId()));
+            }
+        });
 
     }
 
@@ -90,5 +108,6 @@ public class MovieDetailActivity extends AppCompatActivity {
         textViewYear = findViewById(R.id.textViewYear);
         textViewTitle = findViewById(R.id.textViewTitle);
         imageViewPosterDetail = findViewById(R.id.imageViewPosterDetail);
+        imageViewStar = findViewById(R.id.imageViewStar);
     }
 }
