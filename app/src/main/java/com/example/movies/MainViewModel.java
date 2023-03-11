@@ -9,6 +9,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import java.util.List;
+import java.util.Random;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
@@ -37,6 +38,7 @@ public class MainViewModel extends AndroidViewModel {
         if (loading != null && loading) {
             return;
         }
+        page = new Random().nextInt(100);
         Disposable disposable = ApiFactory.apiService.loadMovies(page)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -50,7 +52,11 @@ public class MainViewModel extends AndroidViewModel {
                     } else {
                         movies.setValue(movieResponse.getMovies());
                     }
-                    page++;
+                    int oldPage = page;
+                    do {
+                        page = new Random().nextInt(100);
+                    } while (oldPage != page);
+
                 }, throwable -> Log.d(TAG, throwable.toString()));
 
         compositeDisposable.add(disposable);
